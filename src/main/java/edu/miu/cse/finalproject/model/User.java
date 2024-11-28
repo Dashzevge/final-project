@@ -27,7 +27,7 @@ public class User implements UserDetails, Serializable {
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
-    //hi
+
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Profile profile;
 

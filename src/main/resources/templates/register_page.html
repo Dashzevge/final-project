@@ -92,7 +92,7 @@
 <div class="login-container">
     <h1>Register</h1>
 
-    <form th:action="@{/api/v1/register}" method="post">
+    <form th:action="@{/register}" method="post">
         <input type="text" name="firstName" placeholder="First Name" required />
         <input type="text" name="lastName" placeholder="Last Name" required />
         <input type="text" name="username" placeholder="Username" required />
@@ -101,7 +101,7 @@
 
         <select name="role" required>
             <option value="" disabled selected>Select User Type</option>
-            <option value="MEMBER">USER</option>
+            <option value="MEMBER">MEMBER</option>
             <option value="PROFESSIONAL">PROFESSIONAL</option>
         </select>
 
@@ -109,7 +109,7 @@
     </form>
 
     <p>
-        Already have an account? <a th:href="@{/api/v1/login}">Log in</a>
+        Already have an account? <a th:href="@{/login}">Log in</a>
     </p>
 </div>
 </body>

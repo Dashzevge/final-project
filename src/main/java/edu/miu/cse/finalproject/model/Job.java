@@ -36,13 +36,13 @@ public class Job {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-//    @ManyToMany(mappedBy = "jobs")
-//    private List<User> users;
+    @ManyToMany(mappedBy = "jobs")
+    private List<User> users;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-//    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-//    private List<Booking> bookings;
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    private List<Booking> bookings;
 
 }

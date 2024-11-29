@@ -26,19 +26,19 @@ public class SecurityConfiguration {
         http
                 .csrf(CsrfConfigurer::disable) // Disable CSRF if it's an API
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/register/**", "/api/v1/login/**").permitAll() // Public endpoints
-                        .requestMatchers("/api/v1/home/**").hasAnyRole("ADMIN","MEMBER") // Admin-only resource
+                        .requestMatchers("/register/**", "/login/**","/api/v1/auth/**").permitAll() // Public endpoints
+                        .requestMatchers("/home/**").hasAnyRole("PROFESSIONAL","MEMBER") // Admin-only resource
                         .anyRequest().authenticated() // All other endpoints require authentication
                 )
                 .formLogin(form -> form
-                        .loginPage("/api/v1/login") // Specify the custom login page
-                        .defaultSuccessUrl("/api/v1/home", true) // Redirect to home on success
-                        .failureUrl("/api/v1/login?error=true") // Redirect to login on failure
+                        .loginPage("/login") // Specify the custom login page
+                        .defaultSuccessUrl("/home", true) // Redirect to home on success
+                        .failureUrl("/login?error=true") // Redirect to login on failure
                         .permitAll() // Allow everyone to access the login page
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/api/v1/logout") // Specify logout URL
-                        .logoutSuccessUrl("/api/v1/login?logout=true") // Redirect to login after logout
+                        .logoutUrl("/logout") // Specify logout URL
+                        .logoutSuccessUrl("/login?logout=true") // Redirect to login after logout
                         .invalidateHttpSession(true) // Invalidate session on logout
                         .deleteCookies("JSESSIONID") // Clear cookies
                 )
@@ -49,7 +49,7 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // Add JWT filter for token validation
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) ->
-                                response.sendRedirect("/api/v1/login")) // Redirect unauthenticated users to login
+                                response.sendRedirect("/login")) // Redirect unauthenticated users to login
                 );
 
         return http.build();

@@ -20,12 +20,12 @@ public class Booking implements Serializable {
     private String customerName;
     private LocalDate bookingDate;
     private String status;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "job_id")
-//    private Job job;
 
     @ManyToOne
+    @JoinColumn(name = "job_id")
+    private Job job;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }

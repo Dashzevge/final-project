@@ -1,4 +1,4 @@
-package edu.miu.cse.finalproject.controller;
+package edu.miu.cse.finalproject.view;
 
 import edu.miu.cse.finalproject.auth.AuthenticationRequest;
 import edu.miu.cse.finalproject.auth.AuthenticationResponse;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/api/v1/login")
+@RequestMapping("/login")
 @RequiredArgsConstructor
 public class LoginController {
 

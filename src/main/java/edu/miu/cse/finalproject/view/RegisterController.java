@@ -1,6 +1,5 @@
-package edu.miu.cse.finalproject.controller;
+package edu.miu.cse.finalproject.view;
 
-import edu.miu.cse.finalproject.auth.AuthenticationRequest;
 import edu.miu.cse.finalproject.auth.AuthenticationResponse;
 import edu.miu.cse.finalproject.auth.AuthenticationService;
 import edu.miu.cse.finalproject.auth.RegisterRequest;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/api/v1/register")
+@RequestMapping("/register")
 @RequiredArgsConstructor
 public class RegisterController {
     private final AuthenticationService authenticationService;
@@ -28,7 +27,7 @@ public class RegisterController {
 
         // Process the AuthenticationResponse as needed (e.g., redirecting or returning a view name)
         if (authenticationResponse.token() != null) {
-            return "redirect:/api/v1/login"; // Replace with your desired success path
+            return "redirect:/login"; // Replace with your desired success path
         } else {
             return "redirect:/login?error=true"; // Replace with your error handling
         }

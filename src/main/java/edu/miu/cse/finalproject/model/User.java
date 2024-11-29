@@ -20,7 +20,7 @@ public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String fistName;
+    private String firstName;
     private String lastName;
     private String username;
     private String password;
@@ -31,7 +31,7 @@ public class User implements UserDetails, Serializable {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Profile profile;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -51,8 +51,8 @@ public class User implements UserDetails, Serializable {
     )
     private List<Job> jobs;
 
-    public User(String fistName, String lastName, String username, String password, String email, Role role) {
-        this.fistName = fistName;
+    public User(String firstName, String lastName, String username, String password, String email, Role role) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
@@ -86,4 +86,15 @@ public class User implements UserDetails, Serializable {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
+    @Override
+    public String toString() {
+        return "User{id=" + id
+                + ", " + "firstName='" + firstName
+                + "', " + "lastName='" + lastName
+                + "', username='" + username
+                + "', email='" + email
+                + "', role=" + role + "}";
+    }
+
 }

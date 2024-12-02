@@ -25,15 +25,22 @@ public class Profile implements Serializable {
     private int experienceYears;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    @OneToOne(mappedBy = "profile", fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id") // Specify the foreign key column for the address
     private Address address;
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(
+            name = "profile_certification", // Name of the join table
+            joinColumns = @JoinColumn(name = "profile_id"), // Foreign key for Profile
+            inverseJoinColumns = @JoinColumn(name = "certification_id") // Foreign key for Certification
+    )
     private List<Certification> certifications;
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(
+            name = "profile_skill", // Name of the join table
+            joinColumns = @JoinColumn(name = "profile_id"), // Foreign key for Profile
+            inverseJoinColumns = @JoinColumn(name = "skill_id") // Foreign key for Skill
+    )
     private List<Skill> skills;
 }

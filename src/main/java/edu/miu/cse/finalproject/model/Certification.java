@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "certifications")
@@ -20,7 +21,6 @@ public class Certification {
     private LocalDate issueDate;
     private LocalDate expiryDate;
 
-    @ManyToOne
-    @JoinColumn(name = "profile_id")
-    private Profile profile;
+    @ManyToMany(mappedBy = "certifications") // Correct mapping reference
+    private List<Profile> profiles;
 }

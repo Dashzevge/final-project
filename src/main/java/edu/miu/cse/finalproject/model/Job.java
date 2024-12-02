@@ -31,7 +31,12 @@ public class Job {
     @ManyToMany(mappedBy = "jobs")
     private List<User> users;
 
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "job_booking", // Name of the join table
+            joinColumns = @JoinColumn(name = "job_id"), // Foreign key for User
+            inverseJoinColumns = @JoinColumn(name = "booking_id") // Foreign key for Job
+    )
     private List<Booking> bookings;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)

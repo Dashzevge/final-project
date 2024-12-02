@@ -30,14 +30,20 @@ public class User implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Booking> bookings;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Review> reviews;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_booking", // Name of the join table
+            joinColumns = @JoinColumn(name = "user_id"), // Foreign key for User
+            inverseJoinColumns = @JoinColumn(name = "booking_id") // Foreign key for Job
+    )
+    private List<Booking> bookings;
 
     @ManyToMany
     @JoinTable(

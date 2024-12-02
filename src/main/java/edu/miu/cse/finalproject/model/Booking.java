@@ -25,19 +25,17 @@ public class Booking implements Serializable {
     private LocalDateTime endDate;
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
+    private List<Payment> payments;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private User employee;
 
-    @ManyToOne
-    @JoinColumn(name = "job_id")
-    private Job job;
+    @ManyToMany(mappedBy = "bookings")
+    private List<Job> jobs;
 
-    @OneToOne(mappedBy = "booking") // Inverse side of the relationship.
-    private Payment payment;
+    @ManyToMany(mappedBy = "bookings")
+    private List<User> users;
 
 }

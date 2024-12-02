@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "skills")
 @Data
@@ -16,7 +18,6 @@ public class Skill {
     private String name;
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "profile_id")
-    private Profile profile;
+    @ManyToMany(mappedBy = "skills")
+    private List<Profile> profiles;
 }

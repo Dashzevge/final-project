@@ -19,6 +19,5 @@ public class Address {
     private String zipCode;
 
     @OneToOne
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Profile profile;
 }

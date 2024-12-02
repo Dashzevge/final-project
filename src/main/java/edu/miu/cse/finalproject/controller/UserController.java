@@ -20,9 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final BookingService bookingService;
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<?> findAllUsers() {
         List<UserResponseDTO> allUsers = userService.findAllUsers();
         return ResponseEntity.status(HttpStatus.OK).body(allUsers);
@@ -53,9 +52,4 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-
-    @PostMapping("/create/booking")
-    public ResponseEntity<BookingResponseDTO> createBooking(@RequestBody BookingRequestDTO dto){
-        return new ResponseEntity<>(bookingService.createBookingFromClient(dto), HttpStatus.OK);
-    }
 }

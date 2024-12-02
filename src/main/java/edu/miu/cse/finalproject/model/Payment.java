@@ -22,7 +22,7 @@ public class Payment {
     private String paymentMethod;
     private String status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "booking_id")
     private Booking booking;
 

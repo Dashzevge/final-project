@@ -5,9 +5,10 @@ import java.time.LocalDateTime;
 public record TransactionResponseDTO(
         Long id,
         Long paymentId,
-        Double amount,
+        Double transactionAmount,
+        LocalDateTime transactionDate,
         String transactionType,
-        LocalDateTime timestamp
+        String status
 ) {
 }
 

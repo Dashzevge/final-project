@@ -1,9 +1,12 @@
 package edu.miu.cse.finalproject.dto.transaction.request;
 
+import java.time.LocalDateTime;
+
 public record TransactionRequestDTO(
-        Long paymentId,
-        Double amount,
-        String transactionType
+         Double transactionAmount,
+         LocalDateTime transactionDate,
+         String transactionType,
+         String status
 ) {
 }
 

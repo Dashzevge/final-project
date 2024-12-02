@@ -45,8 +45,8 @@ public class BookingServiceImpl implements BookingService {
     public Optional<BookingResponseDTO> updateBooking(Long id, BookingRequestDTO dto) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + id));
-        booking.setStartDate(dto.startTime());
-        booking.setEndDate(dto.endTime());
+        booking.setStartDate(dto.startDate());
+        booking.setEndDate(dto.endDate());
         booking.setStatus(dto.status());
         Booking updatedBooking = bookingRepository.save(booking);
         return Optional.of(bookingMapper.toResponse(updatedBooking));
@@ -58,12 +58,5 @@ public class BookingServiceImpl implements BookingService {
             throw new EntityNotFoundException("Booking not found with ID: " + id);
         }
         bookingRepository.deleteById(id);
-    }
-
-    @Override
-    public BookingResponseDTO createBookingFromClient(BookingRequestDTO dto) {
-        Booking booking = bookingMapper.toEntity(dto);
-        Booking savedBooking = bookingRepository.save(booking);
-        return bookingMapper.toResponse(savedBooking);
     }
 }

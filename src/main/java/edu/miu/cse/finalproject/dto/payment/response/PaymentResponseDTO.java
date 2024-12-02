@@ -6,9 +6,9 @@ public record PaymentResponseDTO(
         Long id,
         Long bookingId,
         Double amount,
-        String method,
-        String status,
-        LocalDateTime paymentDate
+        LocalDateTime paymentDate,
+        String paymentMethod,
+        String status
 ) {
 }
 

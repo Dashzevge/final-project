@@ -6,8 +6,8 @@ public record BookingRequestDTO(
         Long userId,
         Long jobId,
         String status,
-        LocalDateTime startTime,
-        LocalDateTime endTime
+        LocalDateTime startDate,
+        LocalDateTime endDate
 ) {
 }
 

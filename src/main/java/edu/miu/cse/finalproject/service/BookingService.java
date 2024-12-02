@@ -12,6 +12,4 @@ public interface BookingService {
     List<BookingResponseDTO> findAllBookings();
     Optional<BookingResponseDTO> updateBooking(Long id, BookingRequestDTO dto);
     void deleteBooking(Long id);
-
-    BookingResponseDTO createBookingFromClient(BookingRequestDTO dto);
 }

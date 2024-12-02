@@ -4,9 +4,10 @@ import java.time.LocalDate;
 
 public record CertificationResponseDTO(
         Long id,
-        String title,
-        String description,
+        String name,
+        String authority,
         LocalDate issueDate,
+        LocalDate expiryDate,
         Long userId
 ) {
 }

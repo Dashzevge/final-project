@@ -16,10 +16,10 @@ public class Profile implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long profileId;
-    private String email;
+    private Long id;
+
+    private String bio;
     private String phoneNumber;
-    private int rating;
 
     @Column(name = "experience_years")
     private int experienceYears;
@@ -28,8 +28,12 @@ public class Profile implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "profile", fetch = FetchType.LAZY)
     private Address address;
 
+    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
+    private List<Certification> certifications;
+
+    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
+    private List<Skill> skills;
 }

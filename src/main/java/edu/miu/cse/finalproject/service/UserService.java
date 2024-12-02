@@ -1,16 +1,18 @@
 package edu.miu.cse.finalproject.service;
 
+import edu.miu.cse.finalproject.dto.user.request.UserRequestDTO;
+import edu.miu.cse.finalproject.dto.user.response.UserResponseDTO;
 import edu.miu.cse.finalproject.model.User;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    User saveUser(User user);
-    Optional<User> findUserById(Long id);
-    Optional<User> findUserByUsername(String username);
-    Optional<User> findUserByEmail(String email);
-    User updateUser(Long id, User updatedUser);
+    Optional<UserResponseDTO> addUser(UserRequestDTO dto);
+    Optional<UserResponseDTO> findUserById(Long id);
+    Optional<UserResponseDTO> findUserByName(String name);
+    List<UserResponseDTO> findAllUsers();
+    Optional<UserResponseDTO> updateUser(Long id, UserRequestDTO dto);
     void deleteUser(Long id);
-    List<User> findAllUsers();
+
 }

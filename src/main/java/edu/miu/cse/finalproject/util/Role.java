@@ -18,10 +18,10 @@ public enum Role {
                     Permission.ADMIN_READ
             )
     ),
-    MEMBER(
+    CLIENT(
             Set.of(
-                    Permission.MEMBER_WRITE,
-                    Permission.MEMBER_READ
+                    Permission.CLIENT_WRITE,
+                    Permission.CLIENT_READ
             )
     ),
     PROFESSIONAL(

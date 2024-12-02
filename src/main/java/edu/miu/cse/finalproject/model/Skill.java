@@ -14,8 +14,9 @@ public class Skill {
     private Long id;
 
     private String name;
+    private String description;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 }

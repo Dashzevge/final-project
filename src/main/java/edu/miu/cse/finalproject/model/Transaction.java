@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "transaction")
 @Data
@@ -13,8 +15,9 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double amount;
-    private String transactionDate;
+    private Double transactionAmount;
+    private LocalDateTime transactionDate;
+    private String transactionType;
     private String status;
 
     @ManyToOne

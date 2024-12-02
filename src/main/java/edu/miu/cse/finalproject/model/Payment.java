@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -16,13 +18,14 @@ public class Payment {
     private Long id;
 
     private Double amount;
-
-    private String paymentDate;
+    private LocalDateTime paymentDate;
+    private String paymentMethod;
+    private String status;
 
     @OneToOne
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
 
-    @OneToMany(mappedBy = "payment")
+    @OneToMany(mappedBy = "payment", fetch = FetchType.LAZY)
     private List<Transaction> transactions;
 }

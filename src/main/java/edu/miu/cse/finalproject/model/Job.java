@@ -19,16 +19,8 @@ public class Job {
     private long id;
 
     private String title;
-
     private String description;
-
-    private String location;
-
-    private LocalDate startDate;
-
-    private LocalDate endDate;
-
-    private Double budget;
+    private Double price;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -40,9 +32,10 @@ public class Job {
     private List<User> users;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private List<Booking> bookings;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private List<Booking> bookings;
+    private List<Review> reviews;
+
 
 }

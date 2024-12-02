@@ -1,5 +1,6 @@
 package edu.miu.cse.finalproject.view;
 
+import edu.miu.cse.finalproject.dto.user.response.UserResponseDTO;
 import edu.miu.cse.finalproject.model.User;
 import edu.miu.cse.finalproject.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class HomeController {
 
     @GetMapping
     public String home(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findUserByUsername(userDetails.getUsername()).get();
+        UserResponseDTO user = userService.findUserByName(userDetails.getUsername()).get();
         model.addAttribute("user", user);
         return "home_page";
     }

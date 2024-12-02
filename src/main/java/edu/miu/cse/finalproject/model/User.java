@@ -19,12 +19,14 @@ public class User implements UserDetails, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
     private Long id;
     private String firstName;
     private String lastName;
     private String username;
     private String password;
     private String email;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -36,12 +38,6 @@ public class User implements UserDetails, Serializable {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Review> reviews;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Certification> certifications;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Skill> skills;
 
     @ManyToMany
     @JoinTable(

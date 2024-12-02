@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "certifications")
 @Data
@@ -14,12 +16,11 @@ public class Certification {
     private Long id;
 
     private String name;
-
-    private String organization;
-
-    private String description;
+    private String authority;
+    private LocalDate issueDate;
+    private LocalDate expiryDate;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 }

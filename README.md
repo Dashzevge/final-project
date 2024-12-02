@@ -6,32 +6,35 @@ Generalized job platforms fail to address the specific needs of these profession
 Homeowners and businesses also struggle to locate trustworthy, qualified workers quickly and affordably.
 
 Goal:
-To create a dedicated platform that connects skilled tradespeople with clients, providing an easy and efficient way to find, book, and manage short-term skilled labor opportunities.
+To create a dedicated platform that connects skilled tradespeople with clients, providing an easy and efficient way to find, book, payment and manage short-term skilled labor opportunities.
 
 REQUIREMENT ANALYSIS:
 
 Functional Requirements:
 
 User Registration and Login:
-Tradespeople and clients can register with relevant details.
-Role-based access (Worker vs. Client).
+Professionals and Clients can register with relevant details.
+Role-based access (Professionals and Clients).
 
 Job Listings:
-Clients can post job requests specifying requirements, location, and budget.
-Workers can browse and apply for jobs matching their expertise.
+Clients can post job requests(booking) specifying requirements, location, and budget.
+Professionals can browse and apply for jobs matching their expertise.
 
-Worker Profiles:
-Tradespeople can create profiles showcasing their skills, certifications, and reviews.
+Clients Profiles:
+Clients can create and modified profiles showcasing their skills, certifications, and other details.
+
+Professionals Profiles:
+Professionals can create and modified profiles showcasing their skills, certifications, and other details.
 
 Search and Filters:
 Clients can search for workers based on location, availability, and ratings.
-Workers can filter jobs based on location, type, and budget.
+Professionals can filter jobs based on location, type, and budget.
 
 Booking System:
 Clients can book tradespeople for specific dates and times.
 
 Review and Ratings:
-Both clients and workers can rate and review each other after job completion.
+Both clients and professionals can rate and review each other after job completion.
 
 Non-Functional Requirements:
 

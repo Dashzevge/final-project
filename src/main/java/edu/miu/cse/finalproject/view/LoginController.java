@@ -31,7 +31,7 @@ public class LoginController {
 
         // Process the AuthenticationResponse as needed (e.g., redirecting or returning a view name)
         if (authenticationResponse.token() != null) {
-            return "redirect:/api/v1/home"; // Replace with your desired success path
+            return "redirect:/home"; // Replace with your desired success path
         } else {
             return "redirect:/login?error=true"; // Replace with your error handling
         }

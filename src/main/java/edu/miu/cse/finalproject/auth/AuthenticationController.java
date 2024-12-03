@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -17,12 +19,12 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
         AuthenticationResponse response = authenticationService.register(registerRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response.token());
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("token", response.token()));
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest request) {
         AuthenticationResponse response = authenticationService.authenticate(request);
-        return ResponseEntity.status(HttpStatus.OK).body(response.token());
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("token", response.token()));
     }
 }

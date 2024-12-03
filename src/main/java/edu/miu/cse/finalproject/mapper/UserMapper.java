@@ -10,13 +10,21 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
 
     // Convert a UserRequestDTO object to a User object
-//    @Mapping(source = "username", target = "username")
-//    @Mapping(source = "password", target = "password")
+    @Mapping(source = "firstName", target = "firstName")
+    @Mapping(source = "lastName", target = "lastName")
+    @Mapping(source = "username", target = "username")
+    @Mapping(source = "password", target = "password")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "role", target = "role")
     //@Mapping(source = "userRequestDTO.profileRequestDTO", target = "profile")
     User toEntity(UserRequestDTO userRequestDTO);
 
     // Convert a User object to a UserResponseDTO object
-//    @Mapping(source = "username", target = "username")
+    @Mapping(source = "firstName", target = "firstName")
+    @Mapping(source = "lastName", target = "lastName")
+    @Mapping(source = "username", target = "username")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "role", target = "role")
 //    @Mapping(source = "profile", target = "profileRequestDTO")
     UserResponseDTO toResponse(User user);
 }

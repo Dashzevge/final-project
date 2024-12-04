@@ -1,32 +1,67 @@
 package edu.miu.cse.finalproject.service.impl;
 
+import edu.miu.cse.finalproject.dto.job.response.JobResponseDTO;
 import edu.miu.cse.finalproject.dto.user.request.UserRequestDTO;
 import edu.miu.cse.finalproject.dto.user.response.UserResponseDTO;
+import edu.miu.cse.finalproject.mapper.AddressMapper;
+import edu.miu.cse.finalproject.mapper.JobMapper;
+import edu.miu.cse.finalproject.mapper.ProfileMapper;
 import edu.miu.cse.finalproject.mapper.UserMapper;
+import edu.miu.cse.finalproject.model.Address;
+import edu.miu.cse.finalproject.model.Profile;
 import edu.miu.cse.finalproject.model.User;
+import edu.miu.cse.finalproject.repository.AddressRepository;
+import edu.miu.cse.finalproject.repository.JobRepository;
+import edu.miu.cse.finalproject.repository.ProfileRepository;
 import edu.miu.cse.finalproject.repository.UserRepository;
 import edu.miu.cse.finalproject.service.UserService;
 import edu.miu.cse.finalproject.util.Role;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
+    private final AddressRepository addressRepository;
     private final UserMapper userMapper;
+    private final ProfileMapper profileMapper;
+    private final AddressMapper addressMapper;
 
     @Override
     public Optional<UserResponseDTO> addUser(UserRequestDTO dto) {
+        // Map the User DTO to User entity
         User user = userMapper.toEntity(dto);
+
+        Profile profile = profileMapper.toEntity(dto.profile());
+
+        Address address = addressMapper.toEntity(dto.profile().address());
+
+        address.setProfile(profile);
+        addressRepository.save(address);
+
+        profile.setAddress(address);
+
+        profileRepository.save(profile);
+
+        user.setProfile(profile);
+
         User savedUser = userRepository.save(user);
+
         return Optional.of(userMapper.toResponse(savedUser));
     }
+
+
 
     @Override
     public Optional<UserResponseDTO> findUserById(Long id) {
@@ -70,6 +105,25 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.deleteById(id);
     }
+//    @Override
+//    public List<UserResponseDTO> getAvailableProfessionals(Long jobId, LocalDateTime startDate, LocalDateTime endDate) {
+//        //Job job = findJobById(jobId);
+//
+//        // Fetch professionals based on job category
+//        List<User> professionals = userRepository.findByRoleAndAvailability(Role.PROFESSIONAL, startDate, endDate);
+//
+//        // Filter out those who are already booked for that time range (this could be an additional check)
+//        return professionals.stream()
+//                .filter(professional -> isAvailable(professional, startDate, endDate))
+//                .map(userMapper::toResponse) // Map User entity to DTO
+//                .collect(Collectors.toList());
+//    }
+//
+//    private boolean isAvailable(User professional, LocalDateTime startDate, LocalDateTime endDate) {
+//        return professional.getBookings().stream()
+//                .noneMatch(booking ->
+//                        booking.getStartDate().isBefore(endDate) && booking.getEndDate().isAfter(startDate));
+//    }
 
 }
 

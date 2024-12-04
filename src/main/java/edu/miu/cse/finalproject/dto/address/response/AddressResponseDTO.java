@@ -6,7 +6,6 @@ public record AddressResponseDTO(
         String city,
         String state,
         String zipCode,
-        String country,
         Long userId
 ) {
 }

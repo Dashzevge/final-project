@@ -47,4 +47,10 @@ public class BookingController {
         bookingService.deleteBooking(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{id}/complete")
+    public ResponseEntity<BookingResponseDTO> completeBooking(@PathVariable Long id) {
+        BookingResponseDTO completedBooking = bookingService.completeBooking(id).get();
+        return new ResponseEntity<>(completedBooking, HttpStatus.OK);
+    }
 }

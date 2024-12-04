@@ -46,4 +46,12 @@ public class PaymentController {
         paymentService.deletePayment(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/finalize/{id}")
+    public ResponseEntity<PaymentResponseDTO> finalizePayment(
+            @PathVariable Long id,
+            @RequestBody PaymentRequestDTO paymentDto) {
+        PaymentResponseDTO paymentResponse = paymentService.finalizePayment(id, paymentDto);
+        return new ResponseEntity<>(paymentResponse, HttpStatus.OK);
+    }
 }

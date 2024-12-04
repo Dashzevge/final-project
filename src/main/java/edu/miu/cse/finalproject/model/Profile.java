@@ -9,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "profiles")
-@Data
 @NoArgsConstructor
 public class Profile implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -18,14 +17,17 @@ public class Profile implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String bio;
-    private String phoneNumber;
+    private String bio; // Short description of the professional
+    private String phoneNumber; // Contact number of the professional
 
     @Column(name = "experience_years")
-    private int experienceYears;
+    private int experienceYears; // Total years of experience
 
-    @OneToOne
-    @JoinColumn(name = "address_id") // Specify the foreign key column for the address
+    @OneToOne(mappedBy = "profile") // Back reference to the User entity
+    private User user;
+
+    @OneToOne(cascade = CascadeType.ALL) // Add CascadeType.ALL
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
     @ManyToMany
@@ -34,7 +36,7 @@ public class Profile implements Serializable {
             joinColumns = @JoinColumn(name = "profile_id"), // Foreign key for Profile
             inverseJoinColumns = @JoinColumn(name = "certification_id") // Foreign key for Certification
     )
-    private List<Certification> certifications;
+    private List<Certification> certifications; // List of certifications
 
     @ManyToMany
     @JoinTable(
@@ -42,5 +44,69 @@ public class Profile implements Serializable {
             joinColumns = @JoinColumn(name = "profile_id"), // Foreign key for Profile
             inverseJoinColumns = @JoinColumn(name = "skill_id") // Foreign key for Skill
     )
-    private List<Skill> skills;
+    private List<Skill> skills; // List of skills
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getExperienceYears() {
+        return experienceYears;
+    }
+
+    public void setExperienceYears(int experienceYears) {
+        this.experienceYears = experienceYears;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Certification> getCertifications() {
+        return certifications;
+    }
+
+    public void setCertifications(List<Certification> certifications) {
+        this.certifications = certifications;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

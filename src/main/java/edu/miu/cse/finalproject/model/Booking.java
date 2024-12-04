@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "booking")
-@Data
 @NoArgsConstructor
 public class Booking implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,13 +28,74 @@ public class Booking implements Serializable {
     private List<Payment> payments;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private User employee;
+    @JoinColumn(name = "professional_id") // Foreign key in the Booking table
+    private User professional;
 
-    @ManyToMany(mappedBy = "bookings")
-    private List<Job> jobs;
+    @ManyToOne
+    @JoinColumn(name = "job_id")
+    private Job job;
 
-    @ManyToMany(mappedBy = "bookings")
-    private List<User> users;
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(LocalDateTime bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public User getProfessional() {
+        return professional;
+    }
+
+    public void setProfessional(User professional) {
+        this.professional = professional;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
 }

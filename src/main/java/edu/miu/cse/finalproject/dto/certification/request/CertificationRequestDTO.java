@@ -6,6 +6,7 @@ public record CertificationRequestDTO(
         String name,
         String authority,
         LocalDate issueDate,
-        LocalDate expiryDate
+        LocalDate expiryDate,
+        Long profileId
 ) {
 }

@@ -9,7 +9,8 @@ public record JobResponseDTO(
         String description,
         Double price,
         Status status,
-        Category category
+        Category category,
+        Long clientId
 ) {
 }
 

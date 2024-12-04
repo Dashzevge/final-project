@@ -4,7 +4,9 @@ package edu.miu.cse.finalproject.service.impl;
 import edu.miu.cse.finalproject.dto.skill.request.SkillRequestDTO;
 import edu.miu.cse.finalproject.dto.skill.response.SkillResponseDTO;
 import edu.miu.cse.finalproject.mapper.SkillMapper;
+import edu.miu.cse.finalproject.model.Profile;
 import edu.miu.cse.finalproject.model.Skill;
+import edu.miu.cse.finalproject.repository.ProfileRepository;
 import edu.miu.cse.finalproject.repository.SkillRepository;
 import edu.miu.cse.finalproject.service.SkillService;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,11 +20,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SkillServiceImpl implements SkillService {
     private final SkillRepository skillRepository;
+    private final ProfileRepository profileRepository;
     private final SkillMapper skillMapper;
 
     @Override
     public Optional<SkillResponseDTO> addSkill(SkillRequestDTO dto) {
         Skill skill = skillMapper.toEntity(dto);
+        Profile profile = profileRepository.findById(dto.profileId())
+                .orElseThrow(() -> new EntityNotFoundException("Profile not found with ID: " + dto.profileId()));
+        // Add the Profile to the Skill (Many-to-Many relationship)
+        skill.getProfiles().add(profile);  // Make sure this list is initialized and not empty
+        // Optionally, you may want to also add the Skill to the Profile (depending on your model setup)
+        profile.getSkills().add(skill);
         Skill savedSkill = skillRepository.save(skill);
         return Optional.of(skillMapper.toResponse(savedSkill));
     }

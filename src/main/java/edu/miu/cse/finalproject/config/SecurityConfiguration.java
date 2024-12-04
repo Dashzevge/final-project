@@ -1,6 +1,7 @@
 package edu.miu.cse.finalproject.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -27,7 +28,7 @@ public class SecurityConfiguration {
                 .csrf(CsrfConfigurer::disable) // Disable CSRF if it's an API
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/register/**", "/login/**","/api/v1/auth/**").permitAll() // Public endpoints
-                        .requestMatchers("/home/**").hasAnyRole("PROFESSIONAL","MEMBER") // Admin-only resource
+                        .requestMatchers("/home/**").hasAnyRole("PROFESSIONAL","CLIENT") // Admin-only resource
                         .anyRequest().authenticated() // All other endpoints require authentication
                 )
                 .formLogin(form -> form

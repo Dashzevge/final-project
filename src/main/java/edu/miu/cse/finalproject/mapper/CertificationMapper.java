@@ -17,5 +17,6 @@ public interface CertificationMapper {
     @Mapping(source = "authority", target = "authority")
     @Mapping(source = "issueDate", target = "issueDate")
     @Mapping(source = "expiryDate", target = "expiryDate")
+    @Mapping(expression = "java(entity.getProfiles() != null && !entity.getProfiles().isEmpty() ? entity.getProfiles().get(0).getId() : null)", target = "profileId")
     CertificationResponseDTO toResponse(Certification entity);
 }

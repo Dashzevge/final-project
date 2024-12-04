@@ -15,5 +15,7 @@ public interface BookingMapper {
     @Mapping(source = "status", target = "status")
     @Mapping(source = "startDate", target = "startDate")
     @Mapping(source = "endDate", target = "endDate")
+    @Mapping(source = "professional.id", target = "userId")
+    @Mapping(source = "job.id", target = "jobId")
     BookingResponseDTO toResponse(Booking entity);
 }

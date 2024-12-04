@@ -11,5 +11,6 @@ public interface PaymentService {
     Optional<PaymentResponseDTO> findPaymentById(Long id);
     List<PaymentResponseDTO> findAllPayments();
     Optional<PaymentResponseDTO> updatePayment(Long id, PaymentRequestDTO dto);
+    PaymentResponseDTO finalizePayment(Long bookingId, PaymentRequestDTO paymentDto);
     void deletePayment(Long id);
 }

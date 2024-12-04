@@ -1,5 +1,5 @@
 package edu.miu.cse.finalproject.util;
 
 public enum Status {
-    OPEN, IN_PROGRESS, FINISHED
+    PENDING, CONFIRMED, IN_PROGRESS, COMPLETED, CANCELLED
 }

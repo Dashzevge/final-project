@@ -3,7 +3,9 @@ import edu.miu.cse.finalproject.dto.certification.request.CertificationRequestDT
 import edu.miu.cse.finalproject.dto.certification.response.CertificationResponseDTO;
 import edu.miu.cse.finalproject.mapper.CertificationMapper;
 import edu.miu.cse.finalproject.model.Certification;
+import edu.miu.cse.finalproject.model.Profile;
 import edu.miu.cse.finalproject.repository.CertificationRepository;
+import edu.miu.cse.finalproject.repository.ProfileRepository;
 import edu.miu.cse.finalproject.service.CertificationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +18,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CertificationServiceImpl implements CertificationService {
     private final CertificationRepository certificationRepository;
+    private final ProfileRepository profileRepository;
     private final CertificationMapper certificationMapper;
 
     @Override
     public Optional<CertificationResponseDTO> addCertification(CertificationRequestDTO dto) {
         Certification certification = certificationMapper.toEntity(dto);
+        Profile profile = profileRepository.findById(dto.profileId())
+                .orElseThrow(() -> new EntityNotFoundException("Profile not found with ID: " + dto.profileId()));
+        certification.getProfiles().add(profile);
+        profile.getCertifications().add(certification);
         Certification savedCertification = certificationRepository.save(certification);
         return Optional.of(certificationMapper.toResponse(savedCertification));
     }

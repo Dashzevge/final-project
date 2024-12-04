@@ -5,7 +5,6 @@ public record AddressRequestDTO(
         String city,
         String state,
         String zipCode,
-        String country,
         Long userId
 ) {
 }

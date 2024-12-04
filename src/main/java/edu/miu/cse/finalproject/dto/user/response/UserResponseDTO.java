@@ -6,6 +6,7 @@ public record UserResponseDTO(
         String lastName,
         String username,
         String email,
-        String role
+        String role,
+        boolean isAvailable
 ) {
 }

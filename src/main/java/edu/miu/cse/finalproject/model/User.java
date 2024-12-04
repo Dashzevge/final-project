@@ -8,12 +8,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "user")
-@Data
 @NoArgsConstructor
 public class User implements UserDetails, Serializable {
     private static final long serialVersionUID = 1L;
@@ -26,31 +26,25 @@ public class User implements UserDetails, Serializable {
     private String username;
     private String password;
     private String email;
+    private boolean availability;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Review> reviews;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  // Client reviews
+    private List<Review> clientReviews;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_booking", // Name of the join table
-            joinColumns = @JoinColumn(name = "user_id"), // Foreign key for User
-            inverseJoinColumns = @JoinColumn(name = "booking_id") // Foreign key for Job
-    )
+    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  // Professional reviews
+    private List<Review> professionalReviews;
+
+    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_job", // Name of the join table
-            joinColumns = @JoinColumn(name = "user_id"), // Foreign key for User
-            inverseJoinColumns = @JoinColumn(name = "job_id") // Foreign key for Job
-    )
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Job> jobs;
 
     public User(String firstName, String lastName, String username, String password, String email, Role role) {
@@ -99,4 +93,109 @@ public class User implements UserDetails, Serializable {
                 + "', role=" + role + "}";
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public List<Review> getClientReviews() {
+        return clientReviews;
+    }
+
+    public void setClientReviews(List<Review> clientReviews) {
+        this.clientReviews = clientReviews;
+    }
+
+    public List<Review> getProfessionalReviews() {
+        return professionalReviews;
+    }
+
+    public void setProfessionalReviews(List<Review> professionalReviews) {
+        this.professionalReviews = professionalReviews;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
+    public boolean isAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
+    }
 }

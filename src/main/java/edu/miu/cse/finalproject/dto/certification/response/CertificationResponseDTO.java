@@ -8,7 +8,7 @@ public record CertificationResponseDTO(
         String authority,
         LocalDate issueDate,
         LocalDate expiryDate,
-        Long userId
+        Long profileId
 ) {
 }
 

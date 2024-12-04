@@ -47,9 +47,4 @@ public class ReviewController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/submit")
-    public ResponseEntity<ReviewResponseDTO> submitReview(@RequestBody ReviewRequestDTO reviewDto) {
-        ReviewResponseDTO savedReview = reviewService.submitReview(reviewDto).get();
-        return new ResponseEntity<>(savedReview, HttpStatus.CREATED);
-    }
 }

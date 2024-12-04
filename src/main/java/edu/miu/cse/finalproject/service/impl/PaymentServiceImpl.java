@@ -25,9 +25,22 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentMapper paymentMapper;
 
     @Override
-    public Optional<PaymentResponseDTO> addPayment(PaymentRequestDTO dto) {
-        Payment payment = paymentMapper.toEntity(dto);
+    public Optional<PaymentResponseDTO> addPayment(Long bookingId, PaymentRequestDTO dto) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + bookingId));
+
+        if (!"COMPLETED".equals(booking.getStatus())) {
+            throw new IllegalStateException("Payment can only be finalized for completed bookings.");
+        }
+
+        Payment payment = new Payment();
+        payment.setAmount(dto.amount());
+        payment.setPaymentDate(LocalDateTime.now());
+        payment.setBooking(booking);
+        payment.setStatus("PAID");
+
         Payment savedPayment = paymentRepository.save(payment);
+
         return Optional.of(paymentMapper.toResponse(savedPayment));
     }
 
@@ -58,25 +71,6 @@ public class PaymentServiceImpl implements PaymentService {
         return Optional.of(paymentMapper.toResponse(updatedPayment));
     }
 
-    @Override
-    public PaymentResponseDTO finalizePayment(Long bookingId, PaymentRequestDTO paymentDto) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + bookingId));
-
-        if (!"COMPLETED".equals(booking.getStatus())) {
-            throw new IllegalStateException("Payment can only be finalized for completed bookings.");
-        }
-
-        Payment payment = new Payment();
-        payment.setAmount(paymentDto.amount());
-        payment.setPaymentDate(LocalDateTime.now());
-        payment.setBooking(booking);
-        payment.setStatus("PAID");
-
-        Payment savedPayment = paymentRepository.save(payment);
-
-        return paymentMapper.toResponse(savedPayment);
-    }
 
     @Override
     public void deletePayment(Long id) {

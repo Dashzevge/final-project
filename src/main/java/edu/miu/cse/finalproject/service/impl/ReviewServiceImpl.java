@@ -25,8 +25,22 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Optional<ReviewResponseDTO> addReview(ReviewRequestDTO dto) {
-        Review review = reviewMapper.toEntity(dto);
+        Booking booking = bookingRepository.findById(dto.bookingId())
+                .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + dto.bookingId()));
+
+        if (!"COMPLETED".equals(booking.getStatus())) {
+            throw new IllegalStateException("Cannot submit a review for a booking that is not completed.");
+        }
+
+        Review review = new Review();
+        review.setContent(dto.content());
+        review.setRating(dto.rating());
+        review.setJob(booking.getJob());
+        review.setClient(booking.getJob().getClient());
+        review.setProfessional(booking.getProfessional());
+
         Review savedReview = reviewRepository.save(review);
+
         return Optional.of(reviewMapper.toResponse(savedReview));
     }
 
@@ -54,28 +68,6 @@ public class ReviewServiceImpl implements ReviewService {
         Review updatedReview = reviewRepository.save(review);
         return Optional.of(reviewMapper.toResponse(updatedReview));
     }
-
-    @Override
-    public Optional<ReviewResponseDTO> submitReview(ReviewRequestDTO dto) {
-        Booking booking = bookingRepository.findById(dto.bookingId())
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + dto.bookingId()));
-
-        if (!"COMPLETED".equals(booking.getStatus())) {
-            throw new IllegalStateException("Cannot submit a review for a booking that is not completed.");
-        }
-
-        Review review = new Review();
-        review.setContent(dto.content());
-        review.setRating(dto.rating());
-        review.setJob(booking.getJob());
-        review.setClient(booking.getJob().getClient());
-        review.setProfessional(booking.getProfessional());
-
-        Review savedReview = reviewRepository.save(review);
-
-        return Optional.of(reviewMapper.toResponse(savedReview));
-    }
-
 
     @Override
     public void deleteReview(Long id) {

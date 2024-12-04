@@ -7,10 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PaymentService {
-    Optional<PaymentResponseDTO> addPayment(PaymentRequestDTO dto);
+    Optional<PaymentResponseDTO> addPayment(Long bookingId, PaymentRequestDTO dto);
     Optional<PaymentResponseDTO> findPaymentById(Long id);
     List<PaymentResponseDTO> findAllPayments();
     Optional<PaymentResponseDTO> updatePayment(Long id, PaymentRequestDTO dto);
-    PaymentResponseDTO finalizePayment(Long bookingId, PaymentRequestDTO paymentDto);
     void deletePayment(Long id);
 }

@@ -11,6 +11,5 @@ public interface ReviewService {
     Optional<ReviewResponseDTO> findReviewById(Long id);
     List<ReviewResponseDTO> findAllReviews();
     Optional<ReviewResponseDTO> updateReview(Long id, ReviewRequestDTO dto);
-    Optional<ReviewResponseDTO> submitReview(ReviewRequestDTO dto);
     void deleteReview(Long id);
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    //List<UserResponseDTO> getAvailableProfessionals(Long jobId, LocalDateTime startDate, LocalDateTime endDate);
+    List<UserResponseDTO> getAvailableProfessionals();
     Optional<UserResponseDTO> addUser(UserRequestDTO dto);
     Optional<UserResponseDTO> findUserById(Long id);
     Optional<UserResponseDTO> findUserByName(String name);

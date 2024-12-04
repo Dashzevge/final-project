@@ -22,9 +22,9 @@ public class PaymentController {
         return ResponseEntity.status(HttpStatus.OK).body(allPayment);
     }
 
-    @PostMapping
-    public ResponseEntity<PaymentResponseDTO> createPayment(@RequestBody PaymentRequestDTO PaymentRequestDTO) {
-        PaymentResponseDTO savedPayment = paymentService.addPayment(PaymentRequestDTO).get();
+    @PostMapping("/{bookingId}")
+    public ResponseEntity<PaymentResponseDTO> createPayment(@PathVariable Long bookingId, @RequestBody PaymentRequestDTO paymentRequestDTO) {
+        PaymentResponseDTO savedPayment = paymentService.addPayment(bookingId, paymentRequestDTO).get();
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPayment);
     }
 
@@ -47,11 +47,4 @@ public class PaymentController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/finalize/{id}")
-    public ResponseEntity<PaymentResponseDTO> finalizePayment(
-            @PathVariable Long id,
-            @RequestBody PaymentRequestDTO paymentDto) {
-        PaymentResponseDTO paymentResponse = paymentService.finalizePayment(id, paymentDto);
-        return new ResponseEntity<>(paymentResponse, HttpStatus.OK);
-    }
 }

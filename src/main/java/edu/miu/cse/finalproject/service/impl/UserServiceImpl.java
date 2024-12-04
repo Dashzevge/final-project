@@ -105,25 +105,17 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.deleteById(id);
     }
-//    @Override
-//    public List<UserResponseDTO> getAvailableProfessionals(Long jobId, LocalDateTime startDate, LocalDateTime endDate) {
-//        //Job job = findJobById(jobId);
-//
-//        // Fetch professionals based on job category
-//        List<User> professionals = userRepository.findByRoleAndAvailability(Role.PROFESSIONAL, startDate, endDate);
-//
-//        // Filter out those who are already booked for that time range (this could be an additional check)
-//        return professionals.stream()
-//                .filter(professional -> isAvailable(professional, startDate, endDate))
-//                .map(userMapper::toResponse) // Map User entity to DTO
-//                .collect(Collectors.toList());
-//    }
-//
-//    private boolean isAvailable(User professional, LocalDateTime startDate, LocalDateTime endDate) {
-//        return professional.getBookings().stream()
-//                .noneMatch(booking ->
-//                        booking.getStartDate().isBefore(endDate) && booking.getEndDate().isAfter(startDate));
-//    }
+    @Override
+    public List<UserResponseDTO> getAvailableProfessionals() {
 
+        List<User> professionals = userRepository.findAllByRoleAndAvailability(Role.PROFESSIONAL, true);
+        if (professionals.size() < 0) {
+            throw new EntityNotFoundException("Professionals not found");
+        }
+
+        return professionals.stream()
+                .map(userMapper::toResponse) // Map User entity to DTO
+                .collect(Collectors.toList());
+    }
 }
 

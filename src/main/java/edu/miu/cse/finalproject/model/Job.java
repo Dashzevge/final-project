@@ -1,12 +1,10 @@
 package edu.miu.cse.finalproject.model;
 
 import edu.miu.cse.finalproject.util.Category;
-import edu.miu.cse.finalproject.util.Status;
+import edu.miu.cse.finalproject.util.JobStatus;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -22,7 +20,7 @@ public class Job {
     private Double price;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private JobStatus status;
 
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -69,11 +67,11 @@ public class Job {
         this.price = price;
     }
 
-    public Status getStatus() {
+    public JobStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(JobStatus status) {
         this.status = status;
     }
 

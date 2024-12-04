@@ -1,8 +1,5 @@
 package edu.miu.cse.finalproject.dto.payment.request;
 
-import edu.miu.cse.finalproject.util.Status;
-import lombok.Data;
-
 import java.time.LocalDateTime;
 
 public record PaymentRequestDTO(

@@ -12,6 +12,7 @@ import edu.miu.cse.finalproject.repository.BookingRepository;
 import edu.miu.cse.finalproject.repository.JobRepository;
 import edu.miu.cse.finalproject.repository.UserRepository;
 import edu.miu.cse.finalproject.service.BookingService;
+import edu.miu.cse.finalproject.util.BookingStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -82,17 +83,37 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public List<BookingResponseDTO> findAllBookingsByProfessionalId(Long professionalId) {
+        return bookingRepository.findAll()
+                .stream()
+                .map(bookingMapper::toResponse).toList();
+    }
+
+    @Override
+    public Optional<BookingResponseDTO> updateBookingStatus(Long bookingId, BookingStatus status) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + bookingId));
+
+        if (!isValidStatus(status)) {
+            throw new IllegalArgumentException("Invalid status: " + status);
+        }
+        booking.setStatus(status);
+        Booking updatedBooking = bookingRepository.save(booking);
+        return Optional.of(bookingMapper.toResponse(updatedBooking));
+    }
+
+    @Override
     public Optional<BookingResponseDTO> completeBooking(Long bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + bookingId));
 
-        if (!"IN_PROGRESS".equals(booking.getStatus())) {
+        if (!BookingStatus.IN_PROCESS.equals(booking.getStatus())) {
             throw new IllegalStateException("Booking cannot be marked as complete in its current state.");
         }
 
         User professional = findUserById(booking.getProfessional().getId());
         professional.setAvailability(true);
-        booking.setStatus("COMPLETED");
+        booking.setStatus(BookingStatus.COMPLETED);
         Booking updatedBooking = bookingRepository.save(booking);
 
         return Optional.of(bookingMapper.toResponse(updatedBooking));
@@ -106,6 +127,11 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.deleteById(id);
     }
 
+    private boolean isValidStatus(BookingStatus status) {
+
+           return (status.equals(BookingStatus.IN_PROCESS) || status.equals(BookingStatus.CONFIRMED));
+
+    }
 
     private User findUserById(Long professionalId){
       return  userRepository.findById(professionalId)

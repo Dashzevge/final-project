@@ -1,5 +1,6 @@
 package edu.miu.cse.finalproject.model;
 
+import edu.miu.cse.finalproject.util.BookingStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,9 @@ public class Booking implements Serializable {
     private LocalDateTime bookingDate;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
 
     @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
     private List<Payment> payments;
@@ -67,11 +70,11 @@ public class Booking implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getStatus() {
+    public BookingStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(BookingStatus status) {
         this.status = status;
     }
 

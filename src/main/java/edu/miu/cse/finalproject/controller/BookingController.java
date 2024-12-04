@@ -4,6 +4,7 @@ package edu.miu.cse.finalproject.controller;
 import edu.miu.cse.finalproject.dto.booking.request.BookingRequestDTO;
 import edu.miu.cse.finalproject.dto.booking.response.BookingResponseDTO;
 import edu.miu.cse.finalproject.service.BookingService;
+import edu.miu.cse.finalproject.util.BookingStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,17 @@ public class BookingController {
     @PostMapping("/{id}/complete")
     public ResponseEntity<BookingResponseDTO> completeBooking(@PathVariable Long id) {
         BookingResponseDTO completedBooking = bookingService.completeBooking(id).get();
-        return new ResponseEntity<>(completedBooking, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(completedBooking);
+    }
+    @GetMapping("/professional/{professionalId}")
+    public ResponseEntity<List<BookingResponseDTO>> getBookingsByProfessionalId(@PathVariable Long professionalId) {
+        List<BookingResponseDTO> bookings = bookingService.findAllBookingsByProfessionalId(professionalId);
+        return ResponseEntity.status(HttpStatus.OK).body(bookings);
+    }
+
+    @PutMapping("/{bookingId}/status")
+    public ResponseEntity<BookingResponseDTO> updateBookingStatus(@PathVariable Long bookingId, @RequestParam BookingStatus status) {
+        BookingResponseDTO updatedBooking = bookingService.updateBookingStatus(bookingId, status).get();
+        return ResponseEntity.status(HttpStatus.OK).body(updatedBooking);
     }
 }

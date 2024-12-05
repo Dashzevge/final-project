@@ -99,11 +99,26 @@
         <input type="password" name="password" placeholder="Password" required />
         <input type="email" name="email" placeholder="Email" required />
 
-        <select name="role" required>
+        <select name="role" id="role" onchange="toggleCategory()" required>
             <option value="" disabled selected>Select User Type</option>
             <option value="MEMBER">MEMBER</option>
             <option value="PROFESSIONAL">PROFESSIONAL</option>
         </select>
+
+        <div id="category-container" style="display: none; margin-top: 10px;">
+            <select name="category" id="category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="ELECTRICIAN">ELECTRICIAN</option>
+                <option value="PLUMBER">PLUMBER</option>
+                <option value="CARPENTER">CARPENTER</option>
+                <option value="MECHANIC">MECHANIC</option>
+                <option value="IT_SUPPORT">IT SUPPORT</option>
+                <option value="CLEANING">CLEANING</option>
+                <option value="LANDSCAPER">LANDSCAPER</option>
+                <option value="PAINTER">PAINTER</option>
+                <option value="HVAC_TECHNICIAN">HVAC TECHNICIAN</option>
+            </select>
+        </div>
 
         <input type="submit" value="Register" />
     </form>
@@ -112,5 +127,17 @@
         Already have an account? <a th:href="@{/login}">Log in</a>
     </p>
 </div>
+<script>
+    // Show/hide the category dropdown based on role selection
+    function toggleCategory() {
+        const roleSelect = document.getElementById('role');
+        const categoryContainer = document.getElementById('category-container');
+        if (roleSelect.value === 'PROFESSIONAL') {
+            categoryContainer.style.display = 'block'; // Show category dropdown
+        } else {
+            categoryContainer.style.display = 'none'; // Hide category dropdown
+        }
+    }
+</script>
 </body>
 </html>

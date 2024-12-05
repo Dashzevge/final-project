@@ -31,7 +31,8 @@ public class AuthenticationService {
                 registerRequest.username(),
                 passwordEncoder.encode(registerRequest.password()),
                 registerRequest.email(),
-                registerRequest.role()
+                registerRequest.role(),
+                registerRequest.category()
         );
         //save the user
         User registeredUser = userRepository.save(user);

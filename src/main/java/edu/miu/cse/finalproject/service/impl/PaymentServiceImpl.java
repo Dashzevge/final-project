@@ -3,6 +3,8 @@ package edu.miu.cse.finalproject.service.impl;
 
 import edu.miu.cse.finalproject.dto.payment.request.PaymentRequestDTO;
 import edu.miu.cse.finalproject.dto.payment.response.PaymentResponseDTO;
+import edu.miu.cse.finalproject.exception.booking.BookingNotFoundException;
+import edu.miu.cse.finalproject.exception.payment.PaymentNotFoundException;
 import edu.miu.cse.finalproject.mapper.PaymentMapper;
 import edu.miu.cse.finalproject.model.Booking;
 import edu.miu.cse.finalproject.model.Payment;
@@ -25,9 +27,9 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentMapper paymentMapper;
 
     @Override
-    public Optional<PaymentResponseDTO> addPayment(Long bookingId, PaymentRequestDTO dto) {
+    public Optional<PaymentResponseDTO> addPayment(Long bookingId, PaymentRequestDTO dto) throws BookingNotFoundException {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + bookingId));
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + bookingId));
 
         if (!"COMPLETED".equals(booking.getStatus())) {
             throw new IllegalStateException("Payment can only be finalized for completed bookings.");
@@ -45,9 +47,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Optional<PaymentResponseDTO> findPaymentById(Long id) {
+    public Optional<PaymentResponseDTO> findPaymentById(Long id) throws PaymentNotFoundException {
         Payment booking = paymentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Payment not found with ID: " + id));
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found with ID: " + id));
         return Optional.of(paymentMapper.toResponse(booking));
     }
 
@@ -60,9 +62,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Optional<PaymentResponseDTO> updatePayment(Long id, PaymentRequestDTO dto) {
+    public Optional<PaymentResponseDTO> updatePayment(Long id, PaymentRequestDTO dto) throws PaymentNotFoundException{
         Payment payment = paymentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Payment not found with ID: " + id));
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found with ID: " + id));
         payment.setAmount(dto.amount());
         payment.setPaymentMethod(dto.paymentMethod());
         payment.setPaymentDate(dto.paymentDate());
@@ -73,9 +75,9 @@ public class PaymentServiceImpl implements PaymentService {
 
 
     @Override
-    public void deletePayment(Long id) {
+    public void deletePayment(Long id) throws  PaymentNotFoundException {
         if (!paymentRepository.existsById(id)) {
-            throw new EntityNotFoundException("Payment not found with ID: " + id);
+            throw new PaymentNotFoundException("Payment not found with ID: " + id);
         }
         paymentRepository.deleteById(id);
     }

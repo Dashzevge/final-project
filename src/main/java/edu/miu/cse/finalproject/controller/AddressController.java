@@ -2,6 +2,7 @@ package edu.miu.cse.finalproject.controller;
 
 import edu.miu.cse.finalproject.dto.address.request.AddressRequestDTO;
 import edu.miu.cse.finalproject.dto.address.response.AddressResponseDTO;
+import edu.miu.cse.finalproject.exception.address.AddressNotFoundException;
 import edu.miu.cse.finalproject.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,20 +30,20 @@ public class AddressController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AddressResponseDTO> findAddressById(@PathVariable Long id) {
+    public ResponseEntity<AddressResponseDTO> findAddressById(@PathVariable Long id) throws AddressNotFoundException {
         return addressService.findAddressById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AddressResponseDTO> updateAddress(@PathVariable Long id, @RequestBody AddressRequestDTO updatedAddress) {
+    public ResponseEntity<AddressResponseDTO> updateAddress(@PathVariable Long id, @RequestBody AddressRequestDTO updatedAddress) throws AddressNotFoundException {
         AddressResponseDTO newAddress = addressService.updateAddress(id, updatedAddress).get();
         return new ResponseEntity<>(newAddress, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAddress(@PathVariable Long id) throws AddressNotFoundException {
         addressService.deleteAddress(id);
         return ResponseEntity.noContent().build();
     }

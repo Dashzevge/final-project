@@ -3,6 +3,7 @@ package edu.miu.cse.finalproject.service.impl;
 import edu.miu.cse.finalproject.dto.job.response.JobResponseDTO;
 import edu.miu.cse.finalproject.dto.user.request.UserRequestDTO;
 import edu.miu.cse.finalproject.dto.user.response.UserResponseDTO;
+import edu.miu.cse.finalproject.exception.user.UserNotFoundException;
 import edu.miu.cse.finalproject.mapper.AddressMapper;
 import edu.miu.cse.finalproject.mapper.JobMapper;
 import edu.miu.cse.finalproject.mapper.ProfileMapper;
@@ -64,16 +65,16 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Optional<UserResponseDTO> findUserById(Long id) {
+    public Optional<UserResponseDTO> findUserById(Long id) throws UserNotFoundException {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + id));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
         return Optional.of(userMapper.toResponse(user));
     }
 
     @Override
-    public Optional<UserResponseDTO> findUserByName(String name) {
+    public Optional<UserResponseDTO> findUserByName(String name) throws UserNotFoundException {
         User user = userRepository.findByUsername(name)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with Name: " + name));
+                .orElseThrow(() -> new UserNotFoundException("User not found with Name: " + name));
         return Optional.of(userMapper.toResponse(user));
     }
 
@@ -86,9 +87,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserResponseDTO> updateUser(Long id, UserRequestDTO dto) {
+    public Optional<UserResponseDTO> updateUser(Long id, UserRequestDTO dto) throws UserNotFoundException{
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + id));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
         user.setFirstName(dto.firstName());
         user.setLastName(dto.lastName());
         user.setUsername(dto.username());
@@ -99,9 +100,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(Long id) throws UserNotFoundException{
         if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException("User not found with ID: " + id);
+            throw new UserNotFoundException("User not found with ID: " + id);
         }
         userRepository.deleteById(id);
     }

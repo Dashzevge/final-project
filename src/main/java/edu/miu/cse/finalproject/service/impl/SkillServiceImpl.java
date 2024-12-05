@@ -3,6 +3,7 @@ package edu.miu.cse.finalproject.service.impl;
 
 import edu.miu.cse.finalproject.dto.skill.request.SkillRequestDTO;
 import edu.miu.cse.finalproject.dto.skill.response.SkillResponseDTO;
+import edu.miu.cse.finalproject.exception.skill.SkillNotFoundException;
 import edu.miu.cse.finalproject.mapper.SkillMapper;
 import edu.miu.cse.finalproject.model.Profile;
 import edu.miu.cse.finalproject.model.Skill;
@@ -37,9 +38,9 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public Optional<SkillResponseDTO> findSkillById(Long id) {
+    public Optional<SkillResponseDTO> findSkillById(Long id) throws SkillNotFoundException {
         Skill skill = skillRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Skill not found with ID: " + id));
+                .orElseThrow(() -> new SkillNotFoundException("Skill not found with ID: " + id));
         return Optional.of(skillMapper.toResponse(skill));
     }
 
@@ -52,9 +53,9 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public Optional<SkillResponseDTO> updateSkill(Long id, SkillRequestDTO dto) {
+    public Optional<SkillResponseDTO> updateSkill(Long id, SkillRequestDTO dto) throws SkillNotFoundException {
         Skill skill = skillRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Skill not found with ID: " + id));
+                .orElseThrow(() -> new SkillNotFoundException("Skill not found with ID: " + id));
         skill.setName(dto.name());
         skill.setDescription(dto.description());
         Skill updatedSkill = skillRepository.save(skill);
@@ -62,9 +63,9 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public void deleteSkill(Long id) {
+    public void deleteSkill(Long id) throws SkillNotFoundException{
         if (!skillRepository.existsById(id)) {
-            throw new EntityNotFoundException("Skill not found with ID: " + id);
+            throw new SkillNotFoundException("Skill not found with ID: " + id);
         }
         skillRepository.deleteById(id);
     }

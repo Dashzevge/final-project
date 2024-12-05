@@ -2,6 +2,7 @@ package edu.miu.cse.finalproject.service.impl;
 
 import edu.miu.cse.finalproject.dto.address.request.AddressRequestDTO;
 import edu.miu.cse.finalproject.dto.address.response.AddressResponseDTO;
+import edu.miu.cse.finalproject.exception.address.AddressNotFoundException;
 import edu.miu.cse.finalproject.mapper.AddressMapper;
 import edu.miu.cse.finalproject.model.Address;
 import edu.miu.cse.finalproject.repository.AddressRepository;
@@ -27,9 +28,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Optional<AddressResponseDTO> findAddressById(Long id) {
+    public Optional<AddressResponseDTO> findAddressById(Long id) throws AddressNotFoundException {
         Address booking = addressRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Address not found with ID: " + id));
+                .orElseThrow(() -> new AddressNotFoundException("Address not found with ID: " + id));
         return Optional.of(addressMapper.toResponse(booking));
     }
 
@@ -42,9 +43,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Optional<AddressResponseDTO> updateAddress(Long id, AddressRequestDTO dto) {
+    public Optional<AddressResponseDTO> updateAddress(Long id, AddressRequestDTO dto) throws AddressNotFoundException {
         Address address = addressRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Address not found with ID: " + id));
+                .orElseThrow(() -> new AddressNotFoundException("Address not found with ID: " + id));
         address.setState(dto.state());
         address.setCity(dto.city());
         address.setStreet(dto.street());
@@ -54,9 +55,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void deleteAddress(Long id) {
+    public void deleteAddress(Long id) throws AddressNotFoundException {
         if (!addressRepository.existsById(id)) {
-            throw new EntityNotFoundException("Address not found with ID: " + id);
+            throw new AddressNotFoundException("Address not found with ID: " + id);
         }
         addressRepository.deleteById(id);
     }

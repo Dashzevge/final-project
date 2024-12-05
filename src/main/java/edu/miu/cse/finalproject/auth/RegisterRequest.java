@@ -1,5 +1,6 @@
 package edu.miu.cse.finalproject.auth;
 
+import edu.miu.cse.finalproject.util.Category;
 import edu.miu.cse.finalproject.util.Role;
 
 public record RegisterRequest(
@@ -8,6 +9,7 @@ public record RegisterRequest(
         String username,
         String password,
         String email,
-        Role role
+        Role role,
+        Category category
 ) {
 }

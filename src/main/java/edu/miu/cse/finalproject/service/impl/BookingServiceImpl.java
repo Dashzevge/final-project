@@ -3,6 +3,8 @@ package edu.miu.cse.finalproject.service.impl;
 import edu.miu.cse.finalproject.dto.booking.request.BookingRequestDTO;
 import edu.miu.cse.finalproject.dto.booking.response.BookingResponseDTO;
 import edu.miu.cse.finalproject.dto.user.response.UserResponseDTO;
+import edu.miu.cse.finalproject.exception.booking.BookingNotFoundException;
+import edu.miu.cse.finalproject.exception.profile.ProfileNotFoundException;
 import edu.miu.cse.finalproject.mapper.BookingMapper;
 import edu.miu.cse.finalproject.mapper.UserMapper;
 import edu.miu.cse.finalproject.model.Booking;
@@ -57,9 +59,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Optional<BookingResponseDTO> findBookingById(Long id) {
+    public Optional<BookingResponseDTO> findBookingById(Long id) throws BookingNotFoundException{
         Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + id));
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + id));
         return Optional.of(bookingMapper.toResponse(booking));
     }
 
@@ -72,9 +74,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Optional<BookingResponseDTO> updateBooking(Long id, BookingRequestDTO dto) {
+    public Optional<BookingResponseDTO> updateBooking(Long id, BookingRequestDTO dto) throws BookingNotFoundException{
         Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + id));
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + id));
         booking.setStartDate(dto.startDate());
         booking.setEndDate(dto.endDate());
         booking.setStatus(dto.status());
@@ -83,16 +85,23 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponseDTO> findAllBookingsByProfessionalId(Long professionalId) {
-        return bookingRepository.findAll()
-                .stream()
-                .map(bookingMapper::toResponse).toList();
+    public List<BookingResponseDTO> findAllBookingsByProfessionalId(Long professionalId) throws BookingNotFoundException {
+
+        List<Booking> bookings = bookingRepository.findAllBookingsByProfessionalId(professionalId);
+
+        if(bookings.size() > 0)
+            return bookingRepository.findAllBookingsByProfessionalId(professionalId)
+                    .stream()
+                    .map(bookingMapper::toResponse).toList();
+        else
+           throw new BookingNotFoundException("Booking not found with Professional: " + professionalId);
+
     }
 
     @Override
-    public Optional<BookingResponseDTO> updateBookingStatus(Long bookingId, BookingStatus status) {
+    public Optional<BookingResponseDTO> updateBookingStatus(Long bookingId, BookingStatus status) throws BookingNotFoundException{
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + bookingId));
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + bookingId));
 
         if (!isValidStatus(status)) {
             throw new IllegalArgumentException("Invalid status: " + status);
@@ -103,9 +112,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Optional<BookingResponseDTO> completeBooking(Long bookingId) {
+    public Optional<BookingResponseDTO> completeBooking(Long bookingId) throws BookingNotFoundException{
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found with ID: " + bookingId));
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + bookingId));
 
         if (!BookingStatus.IN_PROCESS.equals(booking.getStatus())) {
             throw new IllegalStateException("Booking cannot be marked as complete in its current state.");
@@ -120,9 +129,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void deleteBooking(Long id) {
+    public void deleteBooking(Long id) throws BookingNotFoundException {
         if (!bookingRepository.existsById(id)) {
-            throw new EntityNotFoundException("Booking not found with ID: " + id);
+            throw new BookingNotFoundException("Booking not found with ID: " + id);
         }
         bookingRepository.deleteById(id);
     }

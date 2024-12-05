@@ -62,20 +62,18 @@
     </style>
 </head>
 <body>
-
 <header>
-    <h1 sec:authorize="hasRole('MEMBER')">Welcome, <span th:text="${user.firstName}"></span>!</h1>
-    <h1 sec:authorize="hasRole('PROFESSIONAL')">Welcome, <span th:text="${user.firstName}"></span>!</h1>
-    <button class="logout-btn" th:onclick="'window.location.href=\'/logout\''">Logout</button>
+    <h1 sec:authorize="hasRole('MEMBER')">Welcome, <span th:text="${user.firstName}">Member</span>!</h1>
+    <h1 sec:authorize="hasRole('PROFESSIONAL')">Welcome, <span th:text="${user.firstName}">Professional</span>!</h1>
+    <button class="logout-btn" onclick="window.location.href='/logout'">Logout</button>
 </header>
 
 <section class="dashboard">
-    <h2 th:text="${user.role}"></h2>
+    <h2 th:text="${user.role}">Role</h2>
     <div class="profile">
         <p><strong>Username:</strong> <span th:text="${user.username}">username</span></p>
         <p><strong>Email:</strong> <span th:text="${user.email}">email</span></p>
     </div>
 </section>
-
 </body>
 </html>

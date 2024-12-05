@@ -1,5 +1,6 @@
 package edu.miu.cse.finalproject.model;
 
+import edu.miu.cse.finalproject.util.Category;
 import edu.miu.cse.finalproject.util.Role;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -31,6 +32,9 @@ public class User implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
     private Profile profile;
@@ -47,13 +51,14 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Job> jobs;
 
-    public User(String firstName, String lastName, String username, String password, String email, Role role) {
+    public User(String firstName, String lastName, String username, String password, String email, Role role, Category category) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.category = category;
     }
 
     @Override
@@ -85,12 +90,16 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public String toString() {
-        return "User{id=" + id
-                + ", " + "firstName='" + firstName
-                + "', " + "lastName='" + lastName
-                + "', username='" + username
-                + "', email='" + email
-                + "', role=" + role + "}";
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", availability=" + availability +
+                ", role=" + role +
+                ", category=" + category +
+                '}';
     }
 
     public Long getId() {
@@ -197,5 +206,13 @@ public class User implements UserDetails, Serializable {
 
     public void setAvailability(boolean availability) {
         this.availability = availability;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

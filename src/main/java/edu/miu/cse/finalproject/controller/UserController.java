@@ -4,6 +4,7 @@ import edu.miu.cse.finalproject.dto.booking.request.BookingRequestDTO;
 import edu.miu.cse.finalproject.dto.booking.response.BookingResponseDTO;
 import edu.miu.cse.finalproject.dto.user.request.UserRequestDTO;
 import edu.miu.cse.finalproject.dto.user.response.UserResponseDTO;
+import edu.miu.cse.finalproject.exception.user.UserNotFoundException;
 import edu.miu.cse.finalproject.mapper.UserMapper;
 import edu.miu.cse.finalproject.model.User;
 import edu.miu.cse.finalproject.service.BookingService;
@@ -34,20 +35,20 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable Long id) throws UserNotFoundException {
         return userService.findUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO updatedUser) {
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO updatedUser) throws UserNotFoundException {
         UserResponseDTO newUser = userService.updateUser(id, updatedUser).get();
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws UserNotFoundException {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }

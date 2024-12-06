@@ -1,4 +1,4 @@
-Job Boarding:
+Job Boarding Application:
 
 PROBLEM STATEMENT:
 Finding local, short-term jobs can be difficult for skilled tradespeople like maintenance workers, cleaners, plumbers, electricians, and painters.
@@ -151,9 +151,9 @@ Prerequisites:
     Add new database for your project.
     Add webApp to deploying front end.    
 
-![Screenshot 2024-12-06 at 10.41.03 AM.png](../../Screenshot%202024-12-06%20at%2010.41.03%20AM.png)
-![Screenshot 2024-12-06 at 10.41.30 AM.png](../../Screenshot%202024-12-06%20at%2010.41.30%20AM.png)
-![Screenshot 2024-12-06 at 10.43.40 AM.png](../../Screenshot%202024-12-06%20at%2010.43.40%20AM.png)
+<img alt="Screenshot 2024-12-06 at 10.41.03 AM.png" src="src/main/resources/static/image/Screenshot 2024-12-06 at 10.41.03 AM.png"/>
+<img alt="Screenshot 2024-12-06 at 10.41.30 AM.png" src="src/main/resources/static/image/Screenshot 2024-12-06 at 10.41.30 AM.png"/>
+<img alt="Screenshot 2024-12-06 at 10.43.40 AM.png" src="src/main/resources/static/image/Screenshot 2024-12-06 at 10.43.40 AM.png"/>
 
 
 Include necessary screenshots you can find in screenshot folder.

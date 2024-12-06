@@ -27,7 +27,7 @@ public class SecurityConfiguration {
         http
                 .csrf(CsrfConfigurer::disable) // Disable CSRF if it's an API
                 .authorizeHttpRequests(request -> request
-
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/register/**", "/login/**","/api/v1/auth/**").permitAll() // Public endpoints
                         .requestMatchers("/home/**").hasAnyRole("PROFESSIONAL","CLIENT") // Admin-only resource
                         .anyRequest().authenticated() // All other endpoints require authentication

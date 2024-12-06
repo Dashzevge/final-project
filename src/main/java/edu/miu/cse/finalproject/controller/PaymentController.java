@@ -6,6 +6,7 @@ import edu.miu.cse.finalproject.exception.booking.BookingNotFoundException;
 import edu.miu.cse.finalproject.exception.payment.PaymentNotFoundException;
 import edu.miu.cse.finalproject.service.PaymentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/v1/payments")
 @RequiredArgsConstructor
 public class PaymentController {
+    @Autowired
     private final PaymentService paymentService;
 
     @GetMapping

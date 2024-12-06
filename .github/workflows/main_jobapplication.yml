@@ -62,5 +62,5 @@ jobs:
         with:
           app-name: 'JobApplication'
           slot-name: 'Production'
-          package: '${{ github.workspace }}/target/finalProject-0.0.1-SNAPSHOT.jar'  # Ensure this matches your actual JAR file name
+          package: '${{ github.workspace }}/finalProject-0.0.1-SNAPSHOT.jar'  # Ensure this matches your actual JAR file name
           

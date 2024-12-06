@@ -159,9 +159,6 @@
                             <version>1.18.24</version>
                         </annotationProcessorPath>
                     </annotationProcessorPaths>
-                    <compilerArgs>
-                        <arg>-proc:none</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

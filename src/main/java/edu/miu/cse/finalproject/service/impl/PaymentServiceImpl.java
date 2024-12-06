@@ -13,6 +13,7 @@ import edu.miu.cse.finalproject.repository.PaymentRepository;
 import edu.miu.cse.finalproject.service.PaymentService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,11 +21,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    private final PaymentRepository paymentRepository;
-    private final BookingRepository bookingRepository;
-    private final PaymentMapper paymentMapper;
+    @Autowired
+    private PaymentRepository paymentRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
+    private PaymentMapper paymentMapper;
 
     @Override
     public Optional<PaymentResponseDTO> addPayment(Long bookingId, PaymentRequestDTO dto) throws BookingNotFoundException {

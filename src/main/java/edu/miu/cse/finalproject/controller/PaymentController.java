@@ -15,10 +15,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/payments")
-@RequiredArgsConstructor
 public class PaymentController {
     @Autowired
-    private final PaymentService paymentService;
+    private PaymentService paymentService;
 
     @GetMapping
     public ResponseEntity<?> findAllPayment() {

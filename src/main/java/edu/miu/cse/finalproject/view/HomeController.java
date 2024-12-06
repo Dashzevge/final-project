@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     private final UserService userService;
-    private final UserMapper userMapper;
+//    private final UserMapper userMapper;
 
     @GetMapping
     public String home(Model model, @AuthenticationPrincipal UserDetails userDetails) throws UserNotFoundException {

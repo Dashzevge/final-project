@@ -9,16 +9,18 @@ import edu.miu.cse.finalproject.repository.ProfileRepository;
 import edu.miu.cse.finalproject.service.ProfileService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
-    private final ProfileRepository profileRepository;
-    private final ProfileMapper profileMapper;
+    @Autowired
+    private  ProfileRepository profileRepository;
+    @Autowired
+    private ProfileMapper profileMapper;
 
     @Override
     public Optional<ProfileResponseDTO> addProfile(ProfileRequestDTO dto) {

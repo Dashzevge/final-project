@@ -7,6 +7,7 @@ import edu.miu.cse.finalproject.dto.user.request.UserRequestDTO;
 import edu.miu.cse.finalproject.dto.user.response.UserResponseDTO;
 import edu.miu.cse.finalproject.exception.user.UserNotFoundException;
 import edu.miu.cse.finalproject.service.UserService;
+import edu.miu.cse.finalproject.util.Role;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,8 +32,8 @@ public class UserControllerTest {
     @Test
     void findAllUsers() {
         List<UserResponseDTO> mockUsers = List.of(
-                new UserResponseDTO(1L, "John", "Doe", "john_doe", "john@example.com", "MEMBER", true),
-                new UserResponseDTO(2L, "Jane", "Doe", "jane_doe", "jane@example.com", "PROFESSIONAL", false)
+                new UserResponseDTO(1L, "John", "Doe", "john_doe", "john@example.com", Role.CLIENT, true),
+                new UserResponseDTO(2L, "Jane", "Doe", "jane_doe", "jane@example.com", Role.PROFESSIONAL, false)
         );
 
         when(userService.findAllUsers()).thenReturn(mockUsers);
@@ -47,10 +48,10 @@ public class UserControllerTest {
     @Test
     void createUser() {
         UserRequestDTO userRequestDTO = new UserRequestDTO(
-                "John", "Doe", "john_doe", "password123", "john@example.com", "MEMBER", true, null);
+                "John", "Doe", "john_doe", "password123", "john@example.com", Role.CLIENT, true, null);
 
         UserResponseDTO userResponseDTO = new UserResponseDTO(
-                1L, "John", "Doe", "john_doe", "john@example.com", "MEMBER", true);
+                1L, "John", "Doe", "john_doe", "john@example.com", Role.CLIENT, true);
 
         when(userService.addUser(userRequestDTO)).thenReturn(Optional.of(userResponseDTO));
 
@@ -65,7 +66,7 @@ public class UserControllerTest {
     void findUserById() throws UserNotFoundException {
         Long userId = 1L;
         UserResponseDTO userResponseDTO = new UserResponseDTO(
-                1L, "John", "Doe", "john_doe", "john@example.com", "MEMBER", true);
+                1L, "John", "Doe", "john_doe", "john@example.com", Role.CLIENT, true);
 
         when(userService.findUserById(userId)).thenReturn(Optional.of(userResponseDTO));
 
@@ -80,10 +81,10 @@ public class UserControllerTest {
     void updateUser() throws UserNotFoundException {
         Long userId = 1L;
         UserRequestDTO updatedUser = new UserRequestDTO(
-                "John", "Doe", "john_doe_updated", "password123", "john_updated@example.com", "MEMBER", true, null);
+                "John", "Doe", "john_doe_updated", "password123", "john_updated@example.com", Role.CLIENT, true, null);
 
         UserResponseDTO updatedUserResponse = new UserResponseDTO(
-                1L, "John", "Doe", "john_doe_updated", "john_updated@example.com", "MEMBER", true);
+                1L, "John", "Doe", "john_doe_updated", "john_updated@example.com", Role.CLIENT, true);
 
         when(userService.updateUser(userId, updatedUser)).thenReturn(Optional.of(updatedUserResponse));
 

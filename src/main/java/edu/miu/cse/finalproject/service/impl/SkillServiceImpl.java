@@ -27,8 +27,8 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public Optional<SkillResponseDTO> addSkill(SkillRequestDTO dto) {
         Skill skill = skillMapper.toEntity(dto);
-        Profile profile = profileRepository.findById(dto.profileId())
-                .orElseThrow(() -> new EntityNotFoundException("Profile not found with ID: " + dto.profileId()));
+        Profile profile = profileRepository.findById(dto.getProfileId())
+                .orElseThrow(() -> new EntityNotFoundException("Profile not found with ID: " + dto.getProfileId()));
         // Add the Profile to the Skill (Many-to-Many relationship)
         skill.getProfiles().add(profile);  // Make sure this list is initialized and not empty
         // Optionally, you may want to also add the Skill to the Profile (depending on your model setup)
@@ -56,8 +56,8 @@ public class SkillServiceImpl implements SkillService {
     public Optional<SkillResponseDTO> updateSkill(Long id, SkillRequestDTO dto) throws SkillNotFoundException {
         Skill skill = skillRepository.findById(id)
                 .orElseThrow(() -> new SkillNotFoundException("Skill not found with ID: " + id));
-        skill.setName(dto.name());
-        skill.setDescription(dto.description());
+        skill.setName(dto.getName());
+        skill.setDescription(dto.getDescription());
         Skill updatedSkill = skillRepository.save(skill);
         return Optional.of(skillMapper.toResponse(updatedSkill));
     }

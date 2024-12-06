@@ -31,7 +31,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Optional<JobResponseDTO> addJob(JobRequestDTO dto) throws UserNotFoundException{
-        User client = findUserById(dto.clientId());
+        User client = findUserById(dto.getClientId());
         Job job = jobMapper.toEntity(dto);
         job.setClient(client);
         Job savedJob = jobRepository.save(job);
@@ -56,12 +56,12 @@ public class JobServiceImpl implements JobService {
     @Override
     public Optional<JobResponseDTO> updateJob(Long id, JobRequestDTO dto) throws JobNotFoundException, UserNotFoundException{
         Job job = findJobEntityById(id);
-        User client = findUserById(dto.clientId());
-        job.setTitle(dto.title());
-        job.setDescription(dto.description());
-        job.setPrice(dto.price());
-        job.setStatus(dto.status());
-        job.setCategory(dto.category());
+        User client = findUserById(dto.getClientId());
+        job.setTitle(dto.getTitle());
+        job.setDescription(dto.getDescription());
+        job.setPrice(dto.getPrice());
+        job.setStatus(dto.getStatus());
+        job.setCategory(dto.getCategory());
         job.setClient(client);
         Job updatedJob = jobRepository.save(job);
         return Optional.of(jobMapper.toResponse(updatedJob));

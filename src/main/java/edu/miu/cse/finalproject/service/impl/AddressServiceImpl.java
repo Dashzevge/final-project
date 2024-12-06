@@ -46,10 +46,10 @@ public class AddressServiceImpl implements AddressService {
     public Optional<AddressResponseDTO> updateAddress(Long id, AddressRequestDTO dto) throws AddressNotFoundException {
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new AddressNotFoundException("Address not found with ID: " + id));
-        address.setState(dto.state());
-        address.setCity(dto.city());
-        address.setStreet(dto.street());
-        address.setZipCode(dto.zipCode());
+        address.setState(dto.getState());
+        address.setCity(dto.getCity());
+        address.setStreet(dto.getStreet());
+        address.setZipCode(dto.getZipCode());
         Address updatedAddress = addressRepository.save(address);
         return Optional.of(addressMapper.toResponse(updatedAddress));
     }

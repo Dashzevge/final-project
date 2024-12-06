@@ -48,9 +48,9 @@ public class ProfileServiceImpl implements ProfileService {
     public Optional<ProfileResponseDTO> updateProfile(Long id, ProfileRequestDTO dto) throws ProfileNotFoundException {
         Profile profile = profileRepository.findById(id)
                 .orElseThrow(() -> new ProfileNotFoundException("Profile not found with ID: " + id));
-        profile.setBio(dto.bio());
-        profile.setPhoneNumber(dto.phoneNumber());
-        profile.setExperienceYears(dto.experienceYears());
+        profile.setBio(dto.getBio());
+        profile.setPhoneNumber(dto.getPhoneNumber());
+        profile.setExperienceYears(dto.getExperienceYears());
         Profile updatedProfile = profileRepository.save(profile);
         return Optional.of(profileMapper.toResponse(updatedProfile));
     }

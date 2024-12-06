@@ -44,9 +44,9 @@ public class UserServiceImpl implements UserService {
         // Map the User DTO to User entity
         User user = userMapper.toEntity(dto);
 
-        Profile profile = profileMapper.toEntity(dto.profile());
+        Profile profile = profileMapper.toEntity(dto.getProfile());
 
-        Address address = addressMapper.toEntity(dto.profile().address());
+        Address address = addressMapper.toEntity(dto.getProfile().getAddress());
 
         address.setProfile(profile);
         addressRepository.save(address);
@@ -90,11 +90,11 @@ public class UserServiceImpl implements UserService {
     public Optional<UserResponseDTO> updateUser(Long id, UserRequestDTO dto) throws UserNotFoundException{
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
-        user.setFirstName(dto.firstName());
-        user.setLastName(dto.lastName());
-        user.setUsername(dto.username());
-        user.setEmail(dto.email());
-        user.setRole(Role.valueOf(dto.role()));
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setRole(dto.getRole());
         User updatedUser = userRepository.save(user);
         return Optional.of(userMapper.toResponse(updatedUser));
     }

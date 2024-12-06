@@ -28,16 +28,16 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Optional<ReviewResponseDTO> addReview(ReviewRequestDTO dto) throws BookingNotFoundException {
-        Booking booking = bookingRepository.findById(dto.bookingId())
-                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + dto.bookingId()));
+        Booking booking = bookingRepository.findById(dto.getBookingId())
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + dto.getBookingId()));
 
         if (!BookingStatus.COMPLETED.equals(booking.getStatus())) {
             throw new IllegalStateException("Cannot submit a review for a booking that is not completed.");
         }
 
         Review review = new Review();
-        review.setContent(dto.content());
-        review.setRating(dto.rating());
+        review.setContent(dto.getContent());
+        review.setRating(dto.getRating());
         review.setJob(booking.getJob());
         review.setClient(booking.getJob().getClient());
         review.setProfessional(booking.getProfessional());
@@ -66,8 +66,8 @@ public class ReviewServiceImpl implements ReviewService {
     public Optional<ReviewResponseDTO> updateReview(Long id, ReviewRequestDTO dto) throws ReviewNotFoundException {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ReviewNotFoundException("Review not found with ID: " + id));
-        review.setContent(dto.content());
-        review.setRating(dto.rating());
+        review.setContent(dto.getContent());
+        review.setRating(dto.getRating());
         Review updatedReview = reviewRepository.save(review);
         return Optional.of(reviewMapper.toResponse(updatedReview));
     }

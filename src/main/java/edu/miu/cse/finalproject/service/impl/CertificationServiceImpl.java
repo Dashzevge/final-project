@@ -26,8 +26,8 @@ public class CertificationServiceImpl implements CertificationService {
     @Override
     public Optional<CertificationResponseDTO> addCertification(CertificationRequestDTO dto) throws ProfileNotFoundException {
         Certification certification = certificationMapper.toEntity(dto);
-        Profile profile = profileRepository.findById(dto.profileId())
-                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with ID: " + dto.profileId()));
+        Profile profile = profileRepository.findById(dto.getProfileId())
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with ID: " + dto.getProfileId()));
         certification.getProfiles().add(profile);
         profile.getCertifications().add(certification);
         Certification savedCertification = certificationRepository.save(certification);
@@ -53,10 +53,10 @@ public class CertificationServiceImpl implements CertificationService {
     public Optional<CertificationResponseDTO> updateCertification(Long id, CertificationRequestDTO dto) throws CertificationNotFoundException{
         Certification certification = certificationRepository.findById(id)
                 .orElseThrow(() -> new CertificationNotFoundException("Certification not found with ID: " + id));
-        certification.setName(dto.name());
-        certification.setAuthority(dto.authority());
-        certification.setExpiryDate(dto.expiryDate());
-        certification.setIssueDate(dto.issueDate());
+        certification.setName(dto.getName());
+        certification.setAuthority(dto.getAuthority());
+        certification.setExpiryDate(dto.getExpiryDate());
+        certification.setIssueDate(dto.getIssueDate());
         Certification updatedCertification = certificationRepository.save(certification);
         return Optional.of(certificationMapper.toResponse(updatedCertification));
     }

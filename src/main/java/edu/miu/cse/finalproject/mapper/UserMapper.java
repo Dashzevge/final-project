@@ -3,30 +3,52 @@ package edu.miu.cse.finalproject.mapper;
 import edu.miu.cse.finalproject.dto.user.request.UserRequestDTO;
 import edu.miu.cse.finalproject.dto.user.response.UserResponseDTO;
 import edu.miu.cse.finalproject.model.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface UserMapper {
+@Component
+public class UserMapper {
 
     // Convert a UserRequestDTO object to a User object
-    @Mapping(source = "firstName", target = "firstName")
-    @Mapping(source = "lastName", target = "lastName")
-    @Mapping(source = "username", target = "username")
-    @Mapping(source = "password", target = "password")
-    @Mapping(source = "email", target = "email")
-    @Mapping(source = "role", target = "role")
-    //@Mapping(source = "userRequestDTO.profileRequestDTO", target = "profile")
-    User toEntity(UserRequestDTO userRequestDTO);
+    public User toEntity(UserRequestDTO userRequestDTO) {
+        if (userRequestDTO == null) {
+            return null;
+        }
+
+        User user = new User();
+        user.setFirstName(userRequestDTO.getFirstName());
+        user.setLastName(userRequestDTO.getLastName());
+        user.setUsername(userRequestDTO.getUsername());
+        user.setPassword(userRequestDTO.getPassword());
+        user.setEmail(userRequestDTO.getEmail());
+        user.setRole(userRequestDTO.getRole());
+
+        // If you want to set the profile, you can manually map the profile here
+        // Assuming profileRequestDTO is a nested object in UserRequestDTO
+        // If required, you can use ProfileMapper to map the profile
+
+        // user.setProfile(profileMapper.toEntity(userRequestDTO.profileRequestDTO));
+
+        return user;
+    }
 
     // Convert a User object to a UserResponseDTO object
-    @Mapping(source = "firstName", target = "firstName")
-    @Mapping(source = "lastName", target = "lastName")
-    @Mapping(source = "username", target = "username")
-    @Mapping(source = "email", target = "email")
-    @Mapping(source = "role", target = "role")
-//    @Mapping(source = "profile", target = "profileRequestDTO")
-    UserResponseDTO toResponse(User user);
+    public UserResponseDTO toResponse(User user) {
+        if (user == null) {
+            return null;
+        }
+
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId(user.getId());
+        userResponseDTO.setFirstName(user.getFirstName());
+        userResponseDTO.setLastName(user.getLastName());
+        userResponseDTO.setUsername(user.getUsername());
+        userResponseDTO.setEmail(user.getEmail());
+        userResponseDTO.setRole(user.getRole());
+
+        // If you need to map the profile into the response, you can manually map it here
+        // If required, you can use ProfileMapper to map the profile
+        // userResponseDTO.setProfile(profileMapper.toResponse(user.getProfile()));
+
+        return userResponseDTO;
+    }
 }
-
-

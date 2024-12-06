@@ -39,7 +39,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         Payment payment = new Payment();
-        payment.setAmount(dto.amount());
+        payment.setAmount(dto.getAmount());
         payment.setPaymentDate(LocalDateTime.now());
         payment.setBooking(booking);
         payment.setStatus("PAID");
@@ -68,10 +68,10 @@ public class PaymentServiceImpl implements PaymentService {
     public Optional<PaymentResponseDTO> updatePayment(Long id, PaymentRequestDTO dto) throws PaymentNotFoundException{
         Payment payment = paymentRepository.findById(id)
                 .orElseThrow(() -> new PaymentNotFoundException("Payment not found with ID: " + id));
-        payment.setAmount(dto.amount());
-        payment.setPaymentMethod(dto.paymentMethod());
-        payment.setPaymentDate(dto.paymentDate());
-        payment.setStatus(dto.status());
+        payment.setAmount(dto.getAmount());
+        payment.setPaymentMethod(dto.getPaymentMethod());
+        payment.setPaymentDate(dto.getPaymentDate());
+        payment.setStatus(dto.getStatus());
         Payment updatedPayment = paymentRepository.save(payment);
         return Optional.of(paymentMapper.toResponse(updatedPayment));
     }

@@ -35,11 +35,11 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Optional<BookingResponseDTO> addBooking(BookingRequestDTO dto) {
 
-        Job job = jobRepository.findById(dto.jobId())
-                .orElseThrow(() -> new EntityNotFoundException("Job not found with ID: " + dto.jobId()));
+        Job job = jobRepository.findById(dto.getJobId())
+                .orElseThrow(() -> new EntityNotFoundException("Job not found with ID: " + dto.getJobId()));
 
-        User professional = userRepository.findById(dto.userId()) // Assuming you pass the professional's ID in the booking
-                .orElseThrow(() -> new EntityNotFoundException("Professional not found with ID: " + dto.userId()));
+        User professional = userRepository.findById(dto.getJobId()) // Assuming you pass the professional's ID in the booking
+                .orElseThrow(() -> new EntityNotFoundException("Professional not found with ID: " + dto.getJobId()));
 
         if (!professional.isAvailability()) {
             throw new AccessDeniedException("Professional is not available during the selected time.");
@@ -48,9 +48,9 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = new Booking();
         booking.setJob(job);
         booking.setProfessional(professional);
-        booking.setStatus(dto.status());
-        booking.setStartDate(dto.startDate());
-        booking.setEndDate(dto.endDate());
+        booking.setStatus(dto.getStatus());
+        booking.setStartDate(dto.getStartDate());
+        booking.setEndDate(dto.getEndDate());
         //After booking make professional unavailable
         professional.setAvailability(false);
         userRepository.save(professional);
@@ -77,9 +77,9 @@ public class BookingServiceImpl implements BookingService {
     public Optional<BookingResponseDTO> updateBooking(Long id, BookingRequestDTO dto) throws BookingNotFoundException{
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + id));
-        booking.setStartDate(dto.startDate());
-        booking.setEndDate(dto.endDate());
-        booking.setStatus(dto.status());
+        booking.setStartDate(dto.getStartDate());
+        booking.setEndDate(dto.getEndDate());
+        booking.setStatus(dto.getStatus());
         Booking updatedBooking = bookingRepository.save(booking);
         return Optional.of(bookingMapper.toResponse(updatedBooking));
     }

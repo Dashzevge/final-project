@@ -1,4 +1,4 @@
-README Instructions:
+Job Boarding:
 
 PROBLEM STATEMENT:
 Finding local, short-term jobs can be difficult for skilled tradespeople like maintenance workers, cleaners, plumbers, electricians, and painters.
@@ -7,6 +7,38 @@ Homeowners and businesses also struggle to locate trustworthy, qualified workers
 
 Goal:
 To create a dedicated platform that connects skilled tradespeople with clients, providing an easy and efficient way to find, book, payment and manage short-term skilled labor opportunities.
+
+Booking Flow Example
+1. Client creates a job:
+    * A client creates a job by filling out details like the title, description, and any specific requirements.
+    * The job is stored with the client_id linking it to the client.
+2. Professional sees available jobs:
+    * Professionals (users with the PROFESSIONAL role) can view a list of jobs created by clients.
+3. Client selects a professional:
+    * Once the professional shows interest in a job, the client can view available professionals and choose one.
+        * Once professional chose  isAvailability false;
+    * This is done via a user interface where the client can select a professional.
+4. Booking:
+    * After the client selects the professional, the professional books the job.
+    * A booking is created where the job is linked to the professional.
+
+1. Confirmation:
+    * The client confirms the booking, and the professional is booked for the job.
+    * After create booking professional update status.(confirmed, in_process).
+    * Professional able to see all the booking assign to himself.
+
+Adjusted Workflow After Job Completion
+1. Job Completion:
+    * Once a job is marked as complete, the system allows the client to leave a review for the professional and the job.
+    * A payment is also required to finalize the booking.
+2. Review Process:
+    * The client can leave a review based on the professional's performance and the quality of the job.
+    * Each review is associated with both the job and the professional (via user).
+3. Payment Process:
+    * After job completion, a payment is processed for the job.
+    * Each payment is linked to a specific booking.
+    * Update professional = true;
+
 
 REQUIREMENT ANALYSIS:
 
@@ -108,14 +140,23 @@ Include a detailed ER diagram showing your database structure and relationships.
 
 
 
-
 SOFTWARE SETUP INSTRUCTIONS:
 Prerequisites:
     Install MySQL (version 8 or higher).
     Install Java JDK (version 17 or higher).
-    Install Spring Boot and Thymeleaf.
+    Install Spring Boot(version 3.0), Spring Security and Thymeleaf.
     Install Maven.
     Install Intellij IDEA (version 21 or higher).
+    Add MySQl flexible server on AZURE.
+    Add new database for your project.
+    Add webApp to deploying front end.    
 
-Include necessary screenshots (e.g., database configuration, running the application).
+![Screenshot 2024-12-06 at 10.41.03 AM.png](../../Screenshot%202024-12-06%20at%2010.41.03%20AM.png)
+![Screenshot 2024-12-06 at 10.41.30 AM.png](../../Screenshot%202024-12-06%20at%2010.41.30%20AM.png)
+![Screenshot 2024-12-06 at 10.43.40 AM.png](../../Screenshot%202024-12-06%20at%2010.43.40%20AM.png)
+
+
+Include necessary screenshots you can find in screenshot folder.
  
+
+

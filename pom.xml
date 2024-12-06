@@ -101,7 +101,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>1.18.24</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -157,9 +158,16 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version> <!-- Use the latest version -->
                 <configuration>
-                    <annotationProcessorPaths/>
+                    <source>17</source> <!-- Set the correct Java version -->
+                    <target>17</target>
+                    <annotationProcessorPaths>
+                        <annotationProcessorPath>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.24</version>
+                        </annotationProcessorPath>
+                    </annotationProcessorPaths>
                     <compilerArgs>
-                        <!-- Disable -proc:full -->
                         <arg>-proc:none</arg>
                     </compilerArgs>
                 </configuration>
